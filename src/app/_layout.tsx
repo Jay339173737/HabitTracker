@@ -1,6 +1,7 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Icon from "../components/Icon";
 import { useStore } from "../store";
 import { colors } from "../theme";
 
@@ -26,7 +27,7 @@ export default function RootLayout() {
         onPress={() => router.push("/create")}
         activeOpacity={0.85}
       >
-        <Text style={styles.fabText}>+</Text>
+        <Icon name="＋" size={26} color="#fff" strokeWidth={2.5} />
       </TouchableOpacity>
     </View>
   );
@@ -48,12 +49,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.45,
     shadowRadius: 16,
     elevation: 10,
-  },
-  fabText: {
-    color: "#fff",
-    fontSize: 30,
-    lineHeight: 34,
-    fontWeight: "300",
-    marginTop: -2,
   },
 });

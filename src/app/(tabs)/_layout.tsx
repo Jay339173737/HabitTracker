@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
+import Icon from "../../components/Icon";
 import { colors } from "../../theme";
 
 export default function TabsLayout() {
@@ -15,6 +15,7 @@ export default function TabsLayout() {
           borderTopWidth: 1,
           height: 60,
           paddingBottom: 6,
+          paddingTop: 6,
         },
         tabBarLabelStyle: {
           fontSize: 11,
@@ -27,7 +28,7 @@ export default function TabsLayout() {
         options={{
           title: "Habit",
           tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 18, color }}>✓</Text>
+            <Icon name="✓" size={20} color={color} strokeWidth={2.4} />
           ),
         }}
       />
@@ -36,7 +37,7 @@ export default function TabsLayout() {
         options={{
           title: "Journal",
           tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 18, color }}>📓</Text>
+            <Icon name="📓" size={20} color={color} strokeWidth={2.2} />
           ),
         }}
       />
