@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useStore } from '../store';
-import { colors } from '../theme';
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useStore } from "./store";
+import { colors } from "./theme";
 
 export default function RoutineDetailScreen() {
   const router = useRouter();
@@ -12,7 +18,7 @@ export default function RoutineDetailScreen() {
   const addHabitsFromTemplates = useStore((s) => s.addHabitsFromTemplates);
 
   const [selected, setSelected] = useState<boolean[]>(
-    routine ? routine.habits.map(() => true) : []
+    routine ? routine.habits.map(() => true) : [],
   );
 
   if (!routine) {
@@ -27,7 +33,8 @@ export default function RoutineDetailScreen() {
   const selectedCount = selected.filter(Boolean).length;
 
   const toggleAll = () => setSelected(selected.map(() => !allSelected));
-  const toggleOne = (i: number) => setSelected(selected.map((v, idx) => (idx === i ? !v : v)));
+  const toggleOne = (i: number) =>
+    setSelected(selected.map((v, idx) => (idx === i ? !v : v)));
 
   const handleAdd = () => {
     const toAdd = routine.habits
@@ -45,7 +52,7 @@ export default function RoutineDetailScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.back}>‹</Text>
@@ -53,9 +60,14 @@ export default function RoutineDetailScreen() {
         <Text style={styles.title}>{routine.title}</Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 110 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
         <View style={styles.card}>
-          <View style={[styles.avatar, { backgroundColor: routine.color ?? colors.primary }]} />
+          <View
+            style={[
+              styles.avatar,
+              { backgroundColor: routine.color ?? colors.primary },
+            ]}
+          />
           <Text style={styles.cardTitle}>{routine.title}</Text>
           <Text style={styles.cardDesc}>{routine.description}</Text>
         </View>
@@ -63,7 +75,9 @@ export default function RoutineDetailScreen() {
         <View style={styles.selectRow}>
           <Text style={styles.selectLabel}>Select Habits</Text>
           <TouchableOpacity onPress={toggleAll}>
-            <Text style={styles.link}>{allSelected ? 'Deselect All' : 'Select All'}</Text>
+            <Text style={styles.link}>
+              {allSelected ? "Deselect All" : "Select All"}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -95,9 +109,10 @@ export default function RoutineDetailScreen() {
         style={[styles.addBtn, selectedCount === 0 && styles.addBtnDisabled]}
         onPress={handleAdd}
         disabled={selectedCount === 0}
+        activeOpacity={0.85}
       >
         <Text style={styles.addText}>
-          Add {selectedCount} Habit{selectedCount === 1 ? '' : 's'}
+          Add {selectedCount} Habit{selectedCount === 1 ? "" : "s"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -106,34 +121,65 @@ export default function RoutineDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  header: { flexDirection: 'row', alignItems: 'center', padding: 16, gap: 16 },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    gap: 16,
+  },
   back: { color: colors.text, fontSize: 22 },
-  title: { color: colors.text, fontSize: 18, fontWeight: '700' },
-  card: { alignItems: 'center', padding: 24, borderBottomWidth: 1, borderBottomColor: colors.cardBorder },
+  title: { color: colors.text, fontSize: 18, fontWeight: "700" },
+  card: {
+    alignItems: "center",
+    padding: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.cardBorder,
+  },
   avatar: { width: 90, height: 90, borderRadius: 45, marginBottom: 16 },
-  cardTitle: { color: colors.text, fontSize: 20, fontWeight: '700', marginBottom: 8 },
-  cardDesc: { color: colors.textDim, fontSize: 14, textAlign: 'center' },
+  cardTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 8,
+  },
+  cardDesc: {
+    color: colors.textDim,
+    fontSize: 14,
+    textAlign: "center",
+    lineHeight: 20,
+  },
   selectRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
-  selectLabel: { color: colors.text, fontSize: 15, fontWeight: '600' },
-  link: { color: colors.primary, fontSize: 14, fontWeight: '600' },
+  selectLabel: { color: colors.text, fontSize: 15, fontWeight: "600" },
+  link: { color: colors.primary, fontSize: 14, fontWeight: "600" },
   habitRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
   },
-  iconBox: { width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  habitName: { color: colors.text, fontSize: 15, fontWeight: '600', marginBottom: 4 },
-  tagsRow: { flexDirection: 'row', gap: 10 },
+  iconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  habitName: {
+    color: colors.text,
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  tagsRow: { flexDirection: "row", gap: 10 },
   tag: { color: colors.textDim, fontSize: 12 },
   checkbox: {
     width: 24,
@@ -141,22 +187,30 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  checkboxOn: { backgroundColor: colors.primary, borderColor: colors.primary },
-  check: { color: '#fff', fontSize: 14, fontWeight: '700' },
+  checkboxOn: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  check: { color: "#fff", fontSize: 14, fontWeight: "700" },
   addBtn: {
-    position: 'absolute',
+    position: "absolute",
     left: 16,
     right: 16,
     bottom: 20,
     backgroundColor: colors.primary,
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 16,
-    alignItems: 'center',
+    alignItems: "center",
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 8,
   },
   addBtnDisabled: { opacity: 0.5 },
-  addText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  dim: { color: colors.textDim, textAlign: 'center', marginTop: 40 },
+  addText: { color: "#fff", fontSize: 16, fontWeight: "700" },
+  dim: { color: colors.textDim, textAlign: "center", marginTop: 40 },
 });

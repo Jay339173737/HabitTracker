@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { useStore } from '../store';
-import { colors } from '../theme';
+import { Stack, useRouter } from "expo-router";
+import { useEffect } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Icon from "../components/Icon";
+import { useStore } from "../store";
+import { colors } from "../theme";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -21,9 +22,12 @@ export default function RootLayout() {
         <Stack.Screen name="routine-detail" />
       </Stack>
 
-      {/* Floating + button */}
-      <TouchableOpacity style={styles.fab} onPress={() => router.push('/create')}>
-        <Text style={styles.fabText}>+</Text>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => router.push("/create")}
+        activeOpacity={0.85}
+      >
+        <Icon name="＋" size={26} color="#fff" strokeWidth={2.5} />
       </TouchableOpacity>
     </View>
   );
@@ -31,15 +35,19 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   fab: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     bottom: 90,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
     backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.45,
+    shadowRadius: 16,
+    elevation: 10,
   },
-  fabText: { color: '#fff', fontSize: 28, lineHeight: 32 },
 });
