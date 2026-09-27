@@ -2,8 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useStore, Routine } from '../store';
-import { colors } from '../theme';
+import { useStore, Routine } from './store';
+
+const colors = {
+  bg: '#0F172A',
+  card: '#1E293B',
+  cardBorder: '#334155',
+  primary: '#38BDF8',
+  premium: '#F59E0B',
+  text: '#F8FAFC',
+  textDim: '#94A3B8',
+};
 
 export default function RoutinesScreen() {
   const router = useRouter();
