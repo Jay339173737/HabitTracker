@@ -1,18 +1,44 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
+import { useStore } from '../store';
+import { colors } from '../theme';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export default function RootLayout() {
+  const router = useRouter();
+  const load = useStore((s) => s.load);
 
-SplashScreen.preventAutoHideAsync();
+  useEffect(() => {
+    load();
+  }, [load]);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <View style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="routines" />
+        <Stack.Screen name="create" />
+      </Stack>
+
+      {/* Floating + button */}
+      <TouchableOpacity style={styles.fab} onPress={() => router.push('/create')}>
+        <Text style={styles.fabText}>+</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 90,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fabText: { color: '#fff', fontSize: 28, lineHeight: 32 },
+});
