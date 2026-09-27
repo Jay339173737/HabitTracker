@@ -1,8 +1,8 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useStore } from "../store";
-import { colors } from "../theme";
+import { useStore } from "./store";
+import { colors } from "./theme";
 
 export default function RootLayout() {
   const router = useRouter();
