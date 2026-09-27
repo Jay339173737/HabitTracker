@@ -1,50 +1,88 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors } from '../theme';
-import type { Habit } from '../store';
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors } from "../theme";
 
-export default function HabitCard({ habit, onToggle }: { habit: Habit; onToggle: () => void }) {
-  const today = new Date().toISOString().slice(0, 10);
-  const done = habit.completedDates.includes(today);
+type Props = {
+  habit: any;
+  onToggle: () => void;
+};
+
+export default function HabitCard({ habit, onToggle }: Props) {
+  const done = habit.completedToday;
 
   return (
-    <View style={styles.card}>
-      <Text style={{ fontSize: 22 }}>{habit.icon}</Text>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.name}>{habit.name}</Text>
-        <Text style={styles.dim}>{habit.frequency === 'once' ? 'Once' : 'Daily'}</Text>
-      </View>
-      <TouchableOpacity
-        onPress={onToggle}
-        style={[styles.check, done && { backgroundColor: colors.green, borderColor: colors.green }]}
+    <TouchableOpacity
+      style={[styles.card, done && styles.cardDone]}
+      onPress={onToggle}
+      activeOpacity={0.75}
+    >
+      <View
+        style={[
+          styles.iconBox,
+          { backgroundColor: habit.color || colors.primary },
+        ]}
       >
-        <Text>{done ? '✓' : ''}</Text>
-      </TouchableOpacity>
-    </View>
+        <Text style={styles.iconText}>{habit.icon || "📌"}</Text>
+      </View>
+
+      <View style={styles.info}>
+        <Text style={styles.name}>{habit.name}</Text>
+        <Text style={styles.meta}>
+          ↻ {habit.requirement || "Daily"}
+          {habit.recurrence ? ` · ${habit.recurrence}` : ""}
+        </Text>
+      </View>
+
+      <View style={[styles.check, done && styles.checkOn]}>
+        {done && <Text style={styles.checkMark}>✓</Text>}
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    padding: 14,
+    borderRadius: 14,
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.cardBorder,
-    borderRadius: 6,
-    padding: 12,
-    marginBottom: 8,
-    gap: 10,
+    marginBottom: 10,
   },
-  name: { color: colors.text, fontSize: 16, fontWeight: '600' },
-  dim: { color: colors.textDim, fontSize: 12, marginTop: 2 },
+  cardDone: {
+    borderColor: "rgba(124, 92, 255, 0.45)",
+    backgroundColor: "#16141f",
+  },
+  iconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconText: { fontSize: 20 },
+  info: { flex: 1 },
+  name: {
+    color: colors.text,
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 3,
+  },
+  meta: { color: colors.textDim, fontSize: 12 },
   check: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 1,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2,
     borderColor: colors.cardBorder,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
+  checkOn: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  checkMark: { color: "#fff", fontSize: 14, fontWeight: "800" },
 });
